@@ -3,29 +3,47 @@ import Navbar from "../Shared/Navbar/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 
-const Login = () => {
-  const {signIn}=useContext(AuthContext);
-    const handleLogin =e =>{
+
+
+
+const Register = () => {
+    const {createUser}=useContext(AuthContext)
+    const handleRegister =e =>{
         e.preventDefault();
          console.log(e.currentTarget)
          const form =new FormData(e.currentTarget);
-         const email = form.get('email');
+         const name =form.get('name');
+         const photo = form.get('photo');
+         const email =form.get('email');
          const password = form.get('password');
-         console.log(email,password);
-         signIn(email,password)
-         .then(result=>{
+         console.log(name,photo,email,password);
+        //  create user
+        createUser(email,password)
+        .then(result=>{
           console.log(result.user)
-         })
-         .catch(error=>{
-          console.error(error);
-         })
+        })
+        .catch(error=>{
+          console.error(error)
+        })
     }
     return (
         <div>
             <Navbar></Navbar>
-            <h2 className="text-center">Please Login</h2>
+            <h2 className="text-center">Please Register</h2>
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100 mx-auto">
-      <form onClick={handleLogin} className="card-body">
+      <form onClick={handleRegister} className="card-body">
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input type="text" name="name" placeholder="Your Name" className="input input-bordered" required />
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Photo URL</span>
+          </label>
+          <input type="text" name="photo" placeholder="Photo URL" className="input input-bordered" required />
+        </div>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Email</span>
@@ -42,13 +60,13 @@ const Login = () => {
           </label>
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary">Login</button>
+          <button className="btn btn-primary">Register</button>
         </div>
       </form>
-      <p className="text-center my-4">Already have an account <Link className="text-blue-600 font-bold" to='/register'>Register</Link></p>
+      <p className="text-center my-4">Already have an account? <Link className="text-blue-600 font-bold" to='/login'>Login</Link></p>
             </div>
         </div>
     );
 };
 
-export default Login;
+export default Register;
